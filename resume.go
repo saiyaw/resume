@@ -1,9 +1,13 @@
 package main
 
 import (
-	"fmt"
+	"github.com/saiyawang/resume/ws"
+	"log"
 )
 
 func main() {
-	fmt.Println("Hell0 world")
+	ws.InitRoute()
+	ws.Start(":321")
+	log.Println("started....")
+
 }

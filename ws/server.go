@@ -49,7 +49,10 @@ func submitHandler(w http.ResponseWriter, r *http.Request) {
 
 	name := r.PostFormValue("name")
 	age := r.PostFormValue("age")
+	education := r.PostFormValue("education")
+	mobile := r.PostFormValue("mobile")
+	experience := r.PostFormValue("experience")
 
-	fmt.Fprint(w, name+":"+age)
-
+	fmt.Fprint(w, name+":"+age +":" + education + ":" + mobile + ":" + experience)
+ 
 }

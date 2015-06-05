@@ -2,10 +2,9 @@
 CREATE TABLE candidate(
 id serial NOT NULL,
 fullname text,
-firstname text,
-lastname text,
 age int,
 education text,
+experience int,
 updatetime timestamp without time zone,
 createtime timestamp without time zone default now(),
 CONSTRAINT candidate_pkey PRIMARY KEY (id)
@@ -18,7 +17,7 @@ DROP TABLE IF EXISTS contact;
 CREATE TABLE contact(
 id serial NOT NULL,
 candidateid int,
-typeid text,
+typeid int,
 info text,
 updatetime timestamp without time zone,
 createtime timestamp without time zone default now(),
@@ -39,11 +38,27 @@ CONSTRAINT contacttype_pkey PRIMARY KEY (id)
 WITH (
   OIDS=FALSE
 );
+INSERT INTO contacttype (type) VALUES ('EMAIL');
+INSERT INTO contacttype (type) VALUES ('PHONE');
+INSERT INTO contacttype (type) VALUES ('MOBILE');
+
+DROP TABLE IF EXISTS documenttype;
+CREATE TABLE documenttype(
+id serial NOT NULL,
+typeid text,
+updatetime timestamp without time zone,
+createtime timestamp without time zone default now(),
+CONSTRAINT documenttype_pkey PRIMARY KEY (id)
+)
+WITH (
+  OIDS=FALSE
+);
 
 DROP TABLE IF EXISTS document;
 CREATE TABLE document(
 id serial NOT NULL,
 candidateid int,
+typeid int,
 filepath text,
 updatetime timestamp without time zone,
 createtime timestamp without time zone default now(),

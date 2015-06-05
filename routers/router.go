@@ -1,10 +1,12 @@
 package routers
 
 import (
-	"github.com/saiyawang/resume/controllers"
 	"github.com/astaxie/beego"
+	"github.com/saiyawang/resume/controllers"
 )
 
 func init() {
-    beego.Router("/", &controllers.MainController{})
+	beego.Router("/", &controllers.MainController{})
+	beego.Router("/uploadresume", &controllers.UploadController{})
+
 }

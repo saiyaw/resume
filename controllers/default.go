@@ -29,13 +29,16 @@ func (c *UploadController) Post() {
 		return
 	}
 	defer file.Close()
-	f, err := os.OpenFile("./static/files/"+handler.Filename, os.O_WRONLY|os.O_CREATE|os.O_TRUNC, 0666)
+	pwd, _ := os.Getwd()
+	beego.Informational(pwd)
+	f, err := os.OpenFile(pwd+"/static/files/"+handler.Filename, os.O_WRONLY|os.O_CREATE|os.O_TRUNC, 0666)
 	if err != nil {
 		beego.Error(err)
 		return
 	}
 	defer f.Close()
 	io.Copy(f, file)
-	c.Ctx.Redirect(302, "/uploadresume")
+	//	c.Ctx.Redirect(200, "/")
+	c.Ctx.WriteString("upload file...ok")
 
 }

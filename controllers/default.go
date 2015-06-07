@@ -5,23 +5,20 @@ import (
 	"os"
 
 	"github.com/astaxie/beego"
+	"github.com/saiyawang/resume/models"
 )
 
-type MainController struct {
+type AddResumeController struct {
 	beego.Controller
 }
 
-func (c *MainController) Get() {
-	c.Data["Website"] = "beego.me"
-	c.Data["Email"] = "astaxie@gmail.com"
+func (c *AddResumeController) Get() {
+
 	c.TplNames = "index.tpl"
+
 }
 
-type UploadController struct {
-	beego.Controller
-}
-
-func (c *UploadController) Post() {
+func (c *AddResumeController) UploadResume() {
 	c.Ctx.Request.ParseMultipartForm(32 << 20)
 	file, handler, err := c.GetFile("uploadresume")
 	if err != nil {
@@ -38,7 +35,34 @@ func (c *UploadController) Post() {
 	}
 	defer f.Close()
 	io.Copy(f, file)
+
+	// put file path into cookie
+	c.Ctx.SetCookie("uploadfilepath", "/static/files/"+handler.Filename, 60, "/")
+
 	//	c.Ctx.Redirect(200, "/")
 	c.Ctx.WriteString("upload file...ok")
+
+}
+
+func (c *AddResumeController) Submit() {
+	var info models.ResumeInfo
+
+	info.Name = c.GetString("name")
+	info.Age = c.GetString("age")
+
+	info.Email = c.GetString("email")
+	info.Education = c.GetString("education")
+	info.Experience = c.GetString("experience")
+	info.Phone = c.GetString("phone")
+	info.Mobile = c.GetString("mobile")
+	info.Comment = c.GetString("comment")
+	info.Resumefile = c.Ctx.GetCookie("uploadfilepath")
+
+	beego.Informational(info.Resumefile)
+	beego.Informational(info)
+
+	models.NewResume(info)
+
+	c.Ctx.WriteString("add resume...ok")
 
 }

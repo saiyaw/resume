@@ -6,7 +6,8 @@ import (
 )
 
 func init() {
-	beego.Router("/", &controllers.MainController{})
-	beego.Router("/uploadresume", &controllers.UploadController{})
+	beego.Router("/", &controllers.AddResumeController{})
+	beego.Router("/uploadresume", &controllers.AddResumeController{}, "POST:UploadResume")
+	beego.Router("/submit", &controllers.AddResumeController{}, "POST:Submit")
 
 }

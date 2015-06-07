@@ -12,8 +12,9 @@
       Email:<input type="text" id="email"><br>
       Education:<input type="text" id="education"><br>
       Experience:<input type="text" id="experience"><br>
-      Phone:<input type="text" id="experience"><br>
+      Phone:<input type="text" id="phone"><br>
       Mobile:<input type="text" id="mobile"><br>
+      Comment:<input type="text" id="comment"><br>
       <div>
         
         Resume: <input type="file" id="uploadresume" name="uploadresume"></input>

@@ -1,37 +1,4 @@
 $(document).ready(function(){
-	$('#btnget').click(function() {
-			$.ajax({
-				type : "GET",
-				url : "/demo",
-				data : {
-					"name" : $('#name').val(),
-					"age" : $('#age').val(),
-					"email" : $('#email').val()
-
-				},
-				success : function(result) {
-					alert(result);
-
-				}
-			});
-		});
-
-
-$('#btnpost').click(function() {
-			$.ajax({
-				type : "POST",
-				url : "/demo",
-				data : {
-					"name" : $('#name').val(),
-					"age" : $('#age').val(),
-					"email" : $('#email').val()
-				},
-				success : function(result) {
-					alert(result);
-				}
-			});
-		});
-
 	$('#btnuploadresume').click(function() {
 		var file = $('#uploadresume').prop("files")[0];
 		var form_data = new FormData();
@@ -49,6 +16,28 @@ $('#btnpost').click(function() {
 		});
 
 	});
+
+	$('#btnsubmit').click(function() {
+		$.ajax({
+			type : "POST",
+			url : "/submit",
+			data : {
+				"name" : $('#name').val(),
+				"age" : $('#age').val(),
+				"email" : $('#email').val(),
+				"education" : $('#education').val(),
+				"experience" : $('#experience').val(),
+				"phone" : $('#phone').val(),
+				"mobile" : $('#mobile').val(),
+				"comment" : $('#comment').val()
+			},
+			success : function(result) {
+				alert(result);
+			}
+		});
+	});
+
+
 
 
 

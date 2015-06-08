@@ -29,7 +29,8 @@ $(document).ready(function(){
 				"experience" : $('#experience').val(),
 				"phone" : $('#phone').val(),
 				"mobile" : $('#mobile').val(),
-				"comment" : $('#comment').val()
+				"comment" : $('#comment').val(),
+				"resumefile" :$('#uploadresume').prop("files")[0].name
 			},
 			success : function(result) {
 				alert(result);

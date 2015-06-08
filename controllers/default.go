@@ -28,6 +28,7 @@ func (c *AddResumeController) UploadResume() {
 	defer file.Close()
 	pwd, _ := os.Getwd()
 	beego.Informational(pwd)
+	beego.Informational(handler.Filename)
 	f, err := os.OpenFile(pwd+"/static/files/"+handler.Filename, os.O_WRONLY|os.O_CREATE|os.O_TRUNC, 0666)
 	if err != nil {
 		beego.Error(err)
@@ -35,9 +36,6 @@ func (c *AddResumeController) UploadResume() {
 	}
 	defer f.Close()
 	io.Copy(f, file)
-
-	// put file path into cookie
-	c.Ctx.SetCookie("uploadfilepath", "/static/files/"+handler.Filename, 60, "/")
 
 	//	c.Ctx.Redirect(200, "/")
 	c.Ctx.WriteString("upload file...ok")
@@ -56,10 +54,8 @@ func (c *AddResumeController) Submit() {
 	info.Phone = c.GetString("phone")
 	info.Mobile = c.GetString("mobile")
 	info.Comment = c.GetString("comment")
-	info.Resumefile = c.Ctx.GetCookie("uploadfilepath")
 
-	beego.Informational(info.Resumefile)
-	beego.Informational(info)
+	info.Resumefile = "/static/files/" + c.GetString("resumefile")
 
 	models.NewResume(info)
 

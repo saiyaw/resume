@@ -26,29 +26,14 @@ type Candidate struct {
 	Age        int64
 	Experience int64
 	Education  string
-}
-
-type Contacttype struct {
-	Id   int
-	Type string
-}
-
-type Documenttype struct {
-	Id   int
-	Type string
-}
-
-type Contact struct {
-	Id          int64
-	Candidateid int64
-	Typeid      int64
-	Info        string
+	Phone      string
+	Mobile     string
+	Email      string
 }
 
 type Document struct {
 	Id          int64
 	Candidateid int64
-	Typeid      int64
 	Filepath    string
 }
 
@@ -70,35 +55,11 @@ func init() {
 
 	orm.RegisterDataBase("default", "postgres", connstr)
 
-	orm.RegisterModel(new(Candidate), new(Contacttype), new(Contact), new(Documenttype), new(Document), new(Comment))
+	orm.RegisterModel(new(Candidate), new(Document), new(Comment))
 }
 
 func NewResume(info ResumeInfo) {
 	o := orm.NewOrm()
-
-	contacttype_email := Contacttype{Type: "EMAIL"}
-	err := o.Read(&contacttype_email, "type")
-	if err != nil {
-		beego.Error(err)
-	}
-
-	contacttype_phone := Contacttype{Type: "PHONE"}
-	err = o.Read(&contacttype_phone, "type")
-	if err != nil {
-		beego.Error(err)
-	}
-
-	contacttype_mobile := Contacttype{Type: "MOBILE"}
-	err = o.Read(&contacttype_mobile, "type")
-	if err != nil {
-		beego.Error(err)
-	}
-
-	doctype_doc := Documenttype{Type: "WORD"}
-	err = o.Read(&doctype_doc, "type")
-	if err != nil {
-		beego.Error(err)
-	}
 
 	o.Begin()
 
@@ -107,42 +68,20 @@ func NewResume(info ResumeInfo) {
 	c.Fullname = info.Name
 	c.Education = info.Education
 	c.Experience, _ = strconv.ParseInt(info.Experience, 0, 64)
+	c.Email = info.Email
+	c.Mobile = info.Mobile
+	c.Phone = info.Phone
 	candidateid, err := o.Insert(&c)
 	if err != nil {
 		beego.Error(err)
 		o.Rollback()
 	}
-	beego.Debug(candidateid)
 
-	contact_email := Contact{Candidateid: candidateid, Typeid: int64(contacttype_email.Id), Info: info.Email}
-	_, err = o.Insert(&contact_email)
+	document := Document{Candidateid: candidateid, Filepath: info.Resumefile}
+	_, err = o.Insert(&document)
 	if err != nil {
 		beego.Error(err)
-		beego.Error("insert contact :MAIL failed")
-		o.Rollback()
-	}
-
-	contact_phone := Contact{Candidateid: candidateid, Typeid: int64(contacttype_phone.Id), Info: info.Phone}
-	_, err = o.Insert(&contact_phone)
-	if err != nil {
-		beego.Error(err)
-		beego.Error("insert contact :PHONE failed")
-		o.Rollback()
-	}
-
-	contact_mobile := Contact{Candidateid: candidateid, Typeid: int64(contacttype_mobile.Id), Info: info.Mobile}
-	_, err = o.Insert(&contact_mobile)
-	if err != nil {
-		beego.Error(err)
-		beego.Error("insert contact :MOBILE failed")
-		o.Rollback()
-	}
-
-	document_word := Document{Candidateid: candidateid, Typeid: int64(doctype_doc.Id), Filepath: info.Resumefile}
-	_, err = o.Insert(&document_word)
-	if err != nil {
-		beego.Error(err)
-		beego.Error("insert contact :WORD failed")
+		beego.Error("insert DOCUMENT failed")
 		o.Rollback()
 	}
 

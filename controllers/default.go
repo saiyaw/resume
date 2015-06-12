@@ -27,8 +27,7 @@ func (c *AddResumeController) UploadResume() {
 	}
 	defer file.Close()
 	pwd, _ := os.Getwd()
-	beego.Informational(pwd)
-	beego.Informational(handler.Filename)
+	beego.Debug(pwd)
 	f, err := os.OpenFile(pwd+"/static/files/"+handler.Filename, os.O_WRONLY|os.O_CREATE|os.O_TRUNC, 0666)
 	if err != nil {
 		beego.Error(err)
@@ -39,6 +38,7 @@ func (c *AddResumeController) UploadResume() {
 
 	//	c.Ctx.Redirect(200, "/")
 	c.Ctx.WriteString("upload file...ok")
+	//	c.Ctx.Redirect(200, "/")
 
 }
 

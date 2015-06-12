@@ -44,12 +44,12 @@
         <label for="inputcomment">Comment</label>
         <input type="text" id="comment" class="form-control" placeholder="Enter comment"><br>
       </div>
-      <div class="form-group">
-        <label for="inputcomment">Resume</label>
+      <form enctype="multipart/form-data">
+        <label>Resume</label>
         <input type="file" id="uploadresume" name="uploadresume"></input>
-        <button id="btnuploadresume" type="type" class="btn btn-default">Upload</button>
-      </div>
-      
+        <button id="btnuploadresume" type="button" >Upload</button>
+      </form>
+      <progress></progress>      
       <button id="btnsubmit" class="btn btn-default">Submit</button>
     </form>
   </body>

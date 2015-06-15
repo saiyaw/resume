@@ -62,5 +62,6 @@ func (c *AddResumeController) Submit() {
 	models.NewResume(info)
 
 	c.Ctx.WriteString("add resume...ok")
+	//	c.Ctx.Redirect(200, "/view")
 
 }

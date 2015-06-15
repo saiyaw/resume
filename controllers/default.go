@@ -14,6 +14,8 @@ type AddResumeController struct {
 
 func (c *AddResumeController) Get() {
 
+	remoteAddr := c.Ctx.Request.RemoteAddr
+	beego.Informational(remoteAddr)
 	c.TplNames = "index.tpl"
 
 }

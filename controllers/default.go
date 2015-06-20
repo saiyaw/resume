@@ -14,8 +14,6 @@ type AddResumeController struct {
 
 func (c *AddResumeController) Get() {
 
-	remoteAddr := c.Ctx.Request.RemoteAddr
-	beego.Informational(remoteAddr)
 	c.TplNames = "index.tpl"
 
 }
@@ -62,6 +60,5 @@ func (c *AddResumeController) Submit() {
 	models.NewResume(info)
 
 	c.Ctx.WriteString("add resume...ok")
-	//	c.Ctx.Redirect(200, "/view")
 
 }

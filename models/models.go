@@ -52,6 +52,7 @@ func init() {
 	db := beego.AppConfig.String("postdb")
 
 	connstr := "user=" + user + " password=" + pwd + " dbname=" + db + " sslmode=disable"
+	beego.Debug(connstr)
 
 	orm.RegisterDataBase("default", "postgres", connstr)
 

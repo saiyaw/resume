@@ -8,14 +8,33 @@ import (
 	"github.com/saiyawang/resume/models"
 )
 
+type ViewResumeController struct {
+	beego.Controller
+}
+
 type AddResumeController struct {
 	beego.Controller
 }
 
-func (c *AddResumeController) Get() {
+type EditResumeController struct {
+	beego.Controller
+}
 
+func (c *ViewResumeController) Get() {
+	remoteAddr := c.Ctx.Request.RemoteAddr
+	beego.Informational(remoteAddr)
+	c.Layout = "layout.tpl"
 	c.TplNames = "index.tpl"
+}
 
+func (c *AddResumeController) Get() {
+	c.Layout = "layout.tpl"
+	c.TplNames = "new.tpl"
+}
+
+func (c *EditResumeController) Get() {
+	c.Layout = "layout.tpl"
+	c.TplNames = "edit.tpl"
 }
 
 func (c *AddResumeController) UploadResume() {

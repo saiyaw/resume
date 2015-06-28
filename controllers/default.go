@@ -37,8 +37,8 @@ func (c *EditResumeController) Get() {
 	c.TplNames = "edit.tpl"
 }
 
-func (c *AddResumeController) UploadResume() {
-	c.Ctx.Request.ParseMultipartForm(32 << 20)
+func (c *AddResumeController) UpLoadFile() {
+	c.Ctx.Request.ParseMultipartForm(1 << 22)
 	file, handler, err := c.GetFile("uploadresume")
 	if err != nil {
 		beego.Error(err)

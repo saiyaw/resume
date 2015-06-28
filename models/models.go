@@ -21,14 +21,14 @@ type ResumeInfo struct {
 }
 
 type Candidate struct {
-	Id         int64
-	Fullname   string
-	Age        int64
-	Experience int64
-	Education  string
-	Phone      string
-	Mobile     string
-	Email      string
+	Id           int64
+	Fullname     string
+	Age          int64
+	Workingyears int64
+	Degree       string
+	Education    string
+	Phone        string
+	Email        string
 }
 
 type Document struct {

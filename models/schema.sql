@@ -4,7 +4,7 @@ id serial NOT NULL,
 fullname text,
 age int,
 workingyears int,
-degreeid int,
+degree text,
 selfevaluation text,
 gender text,
 address text,
@@ -50,9 +50,10 @@ CREATE TABLE experience(
 id serial NOT NULL,
 candidateid int,
 company text,
-periodid int,
 position text,
 responsibility text,
+startdate date,
+enddate date,
 updatetime timestamp without time zone,
 createtime timestamp without time zone default now(),
 CONSTRAINT experience_pkey PRIMARY KEY (id)
@@ -61,30 +62,6 @@ WITH (
   OIDS=FALSE
 );
 
-DROP TABLE IF EXISTS period;
-CREATE TABLE period(
-id serial NOT NULL,
-startdate date,
-enddate date,
-updatetime timestamp without time zone,
-createtime timestamp without time zone default now(),
-CONSTRAINT period_pkey PRIMARY KEY (id)
-)
-WITH (
-  OIDS=FALSE
-);
-
-DROP TABLE IF EXISTS degree;
-CREATE TABLE degree(
-id serial NOT NULL,
-degree text,
-updatetime timestamp without time zone,
-createtime timestamp without time zone default now(),
-CONSTRAINT degree_pkey PRIMARY KEY (id)
-)
-WITH (
-  OIDS=FALSE
-);
 
 DROP TABLE IF EXISTS education;
 CREATE TABLE education(
@@ -92,8 +69,9 @@ id serial NOT NULL,
 candidateid int,
 university text,
 major text,
-degreeid int,
-periodid int,
+degree text,
+startdate date,
+enddate date,
 updatetime timestamp without time zone,
 createtime timestamp without time zone default now(),
 CONSTRAINT education_pkey PRIMARY KEY (id)

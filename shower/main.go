@@ -2,7 +2,7 @@ package main
 
 import (
 	"github.com/astaxie/beego"
-	_ "github.com/saiyawang/resumereader/showweb/routers"
+	_ "github.com/saiyawang/resume/shower/routers"
 )
 
 func main() {

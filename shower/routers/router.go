@@ -2,7 +2,7 @@ package routers
 
 import (
 	"github.com/astaxie/beego"
-	"github.com/saiyawang/resumereader/showweb/controllers"
+	"github.com/saiyawang/resume/shower/controllers"
 )
 
 func init() {

@@ -5,7 +5,7 @@ import (
 	"os"
 
 	"github.com/astaxie/beego"
-	"github.com/saiyawang/resume/models"
+	"github.com/saiyawang/resume/viewer/models"
 )
 
 type ViewResumeController struct {

@@ -2,7 +2,7 @@ package controllers
 
 import (
 	"github.com/astaxie/beego"
-	"github.com/saiyawang/resumereader/showweb/models"
+	"github.com/saiyawang/resume/shower/models"
 )
 
 type MainController struct {

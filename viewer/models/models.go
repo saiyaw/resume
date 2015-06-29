@@ -68,9 +68,8 @@ func NewResume(info ResumeInfo) {
 	c.Age, _ = strconv.ParseInt(info.Age, 0, 64)
 	c.Fullname = info.Name
 	c.Education = info.Education
-	c.Experience, _ = strconv.ParseInt(info.Experience, 0, 64)
+	c.Workingyears, _ = strconv.ParseInt(info.Experience, 0, 64)
 	c.Email = info.Email
-	c.Mobile = info.Mobile
 	c.Phone = info.Phone
 	candidateid, err := o.Insert(&c)
 	if err != nil {

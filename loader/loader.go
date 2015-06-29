@@ -5,7 +5,7 @@ import (
 	"os"
 	"path/filepath"
 
-	"github.com/saiyawang/resumereader/cvreader/util"
+	"github.com/saiyawang/resume/loader/util"
 )
 
 func testdb() {

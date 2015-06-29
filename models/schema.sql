@@ -96,3 +96,31 @@ CONSTRAINT ecareerintention_pkey PRIMARY KEY (id)
 WITH (
   OIDS=FALSE
 );
+
+DROP TABLE IF EXISTS skillpool;
+CREATE TABLE skillpool(
+id serial NOT NULL,
+skill text,
+updatetime timestamp without time zone,
+createtime timestamp without time zone default now(),
+CONSTRAINT skillpool_pkey PRIMARY KEY (id)
+)
+WITH (
+  OIDS=FALSE
+);
+
+DROP TABLE IF EXISTS candidateskill;
+CREATE TABLE candidateskill(
+id serial NOT NULL,
+candidateid int,
+skillid int,
+rank real,
+updatetime timestamp without time zone,
+createtime timestamp without time zone default now(),
+CONSTRAINT candidateskill_pkey PRIMARY KEY (id)
+)
+WITH (
+  OIDS=FALSE
+);
+
+

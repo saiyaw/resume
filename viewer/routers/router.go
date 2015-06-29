@@ -11,5 +11,6 @@ func init() {
 	beego.Router("/edit", &controllers.EditResumeController{})
 	beego.Router("/uploadresume", &controllers.AddResumeController{}, "POST:UpLoadFile")
 	beego.Router("/submit", &controllers.AddResumeController{}, "POST:Submit")
+	beego.Router("/getskillpool", &controllers.SkillPoolController{}, "POST:GetSkillPool")
 
 }

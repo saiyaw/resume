@@ -6,6 +6,7 @@ import (
 	"github.com/astaxie/beego"
 	"github.com/astaxie/beego/orm"
 	_ "github.com/lib/pq"
+	"github.com/saiyawang/resume/loader/util"
 )
 
 type ResumeInfo struct {
@@ -20,29 +21,6 @@ type ResumeInfo struct {
 	Comment    string
 }
 
-type Candidate struct {
-	Id           int64
-	Fullname     string
-	Age          int64
-	Workingyears int64
-	Degree       string
-	Education    string
-	Phone        string
-	Email        string
-}
-
-type Document struct {
-	Id          int64
-	Candidateid int64
-	Filepath    string
-}
-
-type Comment struct {
-	Id          int64
-	Candidateid int64
-	Info        string
-}
-
 func init() {
 	orm.Debug, _ = beego.AppConfig.Bool("ormdebug")
 
@@ -54,9 +32,9 @@ func init() {
 	connstr := "user=" + user + " password=" + pwd + " dbname=" + db + " sslmode=disable"
 	beego.Debug(connstr)
 
-	orm.RegisterDataBase("default", "postgres", connstr)
+	//	orm.RegisterDataBase("default", "postgres", connstr)
 
-	orm.RegisterModel(new(Candidate), new(Document), new(Comment))
+	//	orm.RegisterModel(new(util.Candidate), new(util.Document), new(util.Comment))
 }
 
 func NewResume(info ResumeInfo) {
@@ -64,10 +42,10 @@ func NewResume(info ResumeInfo) {
 
 	o.Begin()
 
-	var c Candidate
+	var c util.Candidate
 	c.Age, _ = strconv.ParseInt(info.Age, 0, 64)
 	c.Fullname = info.Name
-	c.Education = info.Education
+	c.Degree = info.Education
 	c.Workingyears, _ = strconv.ParseInt(info.Experience, 0, 64)
 	c.Email = info.Email
 	c.Phone = info.Phone
@@ -77,7 +55,7 @@ func NewResume(info ResumeInfo) {
 		o.Rollback()
 	}
 
-	document := Document{Candidateid: candidateid, Filepath: info.Resumefile}
+	document := util.Document{Candidateid: candidateid, Filepath: info.Resumefile}
 	_, err = o.Insert(&document)
 	if err != nil {
 		beego.Error(err)
@@ -85,7 +63,7 @@ func NewResume(info ResumeInfo) {
 		o.Rollback()
 	}
 
-	comment := Comment{Candidateid: candidateid, Info: info.Comment}
+	comment := util.Comment{Candidateid: candidateid, Info: info.Comment}
 	_, err = o.Insert(&comment)
 	if err != nil {
 		beego.Error(err)
@@ -94,5 +72,17 @@ func NewResume(info ResumeInfo) {
 	}
 
 	o.Commit()
+
+}
+
+func GetSkillPool() []util.Skillpool {
+	o := orm.NewOrm()
+
+	var result []util.Skillpool
+
+	num, err := o.QueryTable("skillpool").All(&result)
+	beego.Debug("Returned Rows Num:%s, %s", num, err)
+
+	return result
 
 }

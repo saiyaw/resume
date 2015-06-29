@@ -1,4 +1,24 @@
+function InitSkillPool(){
+	$.ajax({
+			type : 'POST',
+			url : '/getskillpool',
+			async :false,
+			success : function(result) {
+				
+				arr = eval(result);
+//				alert(arr);
+				for (var i = 0; i< arr.length; i++){
+					str = "<span class='button-checkbox'>	<button type='button' class='btn' data-color='primary' id=skill_" + arr[i].Id + ">"+ arr[i].Skill + "</button>	<input type='checkbox' class='hidden'/>	</span>";
+
+					$("#skillpool").append(str);
+				}
+			}
+		});
+}
+
 $(document).ready(function(){
+	InitSkillPool();
+
 	$('#btnuploadresume').click(function() {
 		
 		var file = $('#uploadresume').prop("files")[0];
@@ -16,6 +36,9 @@ $(document).ready(function(){
 				alert(result);
 			}
 		});
+
+
+
 
 		
  /*
@@ -84,6 +107,76 @@ $(document).ready(function(){
 		});
 	});
 
+    $('.button-checkbox').each(function () {
+
+        // Settings
+        var $widget = $(this),
+            $button = $widget.find('button'),
+            $checkbox = $widget.find('input:checkbox'),
+            color = $button.data('color'),
+            settings = {
+                on: {
+                    icon: 'glyphicon glyphicon-check'
+                },
+                off: {
+                    icon: 'glyphicon glyphicon-unchecked'
+                }
+            };
+
+        // Event Handlers
+        $button.on('click', function () {
+            $checkbox.prop('checked', !$checkbox.is(':checked'));
+            $checkbox.triggerHandler('change');
+            updateDisplay();
+
+            if ($checkbox.is(':checked')) {
+     //       	alert($button.text());
+            }
+
+            
+        });
+        $checkbox.on('change', function () {
+            updateDisplay();
+        });
+
+        // Actions
+        function updateDisplay() {
+            var isChecked = $checkbox.is(':checked');
+
+            // Set the button's state
+            $button.data('state', (isChecked) ? "on" : "off");
+/*
+            // Set the button's icon
+            $button.find('.state-icon')
+                .removeClass()
+                .addClass('state-icon ' + settings[$button.data('state')].icon);
+*/
+            // Update the button's color
+            if (isChecked) {
+                $button
+                    .removeClass('btn-default')
+                    .addClass('btn-' + color + ' active');
+            }
+            else {
+                $button
+                    .removeClass('btn-' + color + ' active')
+                    .addClass('btn-default');
+            }
+        }
+
+        // Initialization
+        function init() {
+
+            updateDisplay();
+/*
+            // Inject the icon if applicable
+            if ($button.find('.state-icon').length == 0) {
+                $button.prepend('<i class="state-icon ' + settings[$button.data('state')].icon + '"></i> ');
+            }
+*/
+        }
+        init();
+    });
 
 
 

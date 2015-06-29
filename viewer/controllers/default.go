@@ -1,6 +1,7 @@
 package controllers
 
 import (
+	"encoding/json"
 	"io"
 	"os"
 
@@ -17,6 +18,10 @@ type AddResumeController struct {
 }
 
 type EditResumeController struct {
+	beego.Controller
+}
+
+type SkillPoolController struct {
 	beego.Controller
 }
 
@@ -79,5 +84,15 @@ func (c *AddResumeController) Submit() {
 	models.NewResume(info)
 
 	c.Ctx.WriteString("add resume...ok")
+
+}
+
+func (c *SkillPoolController) GetSkillPool() {
+
+	result := models.GetSkillPool()
+
+	str, _ := json.Marshal(result)
+
+	c.Ctx.WriteString(string(str))
 
 }

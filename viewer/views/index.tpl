@@ -1,3 +1,18 @@
+<div id="skillpool">
+    <span class="button-checkbox">
+        <button type="button" class="btn" data-color="primary">JAVA</button>
+        <input type="checkbox" class="hidden" />
+    </span>
+    <span class="button-checkbox">
+        <button type="button" class="btn" data-color="primary">PHP</button>
+        <input type="checkbox" class="hidden"/>
+    </span>
+    <span class="button-checkbox">
+        <button type="button" class="btn" data-color="primary">HTML</button>
+        <input type="checkbox" class="hidden"/>
+    </span>
+</div>
+
 <div>
 	<table id="resumelist" class="table">
 		<thead>

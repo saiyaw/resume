@@ -1,5 +1,9 @@
 phantom.outputEncoding="GBK";
-var casper = require('casper').create();
+var casper = require('casper').create({
+    javascriptEnabled: true,
+    logLevel:"verbose",
+    debug:true
+});
 var utils = require('utils');
 var fs = require('fs');
 var mimetype = require('./mimetype'); // URL provided below
@@ -10,6 +14,7 @@ var resourceDirectory = "resources";
 var debug = false;
 
 fs.removeTree(resourceDirectory);
+fs.removeTree("capture");
 
 
 
@@ -137,6 +142,15 @@ function capturePage(pointer, filename){
     fs.write(filename +".html", page, "wb");
 }
 
+function downloadpage(pointer, filename, url){
+    pointer.thenOpen(url, function(){
+        capturePage(pointer, filename);
+        this.capture("capture/" + filename + ".png");
+        this.echo(url + " is downloaded.");
+        
+    });
+}
+
 casper.start('http://10.243.119.113/covidien', function() {
 	if (this.exists('#edit-name')){
 		this.echo("find the input box for enter the user name.");
@@ -160,24 +174,108 @@ casper.start('http://10.243.119.113/covidien', function() {
 	});	
 });
 
+
+
 var device_page_url = 'http://10.243.119.113/covidien/covidien/device/2346601/35B1800539';
 casper.thenOpen(device_page_url, function() {
-	this.wait(2000, function() {
-		capturePage(this, '4_device_page');
-		this.echo("download the device page");
-		
-	})
-	
-	
+    this.click('a.iframe.cboxElement');
+    this.echo('wait for the popup window.');
+    casper.wait(2000, function() {
+        if(this.exists('#center')){
+            this.echo('find the popup window.');
+        }
+        this.capture('capture/4_technician.png');
+
+        this.echo(this.getCurrentUrl());
+        this.page.switchToChildFrame(0);
+        this.echo(this.getCurrentUrl());
+
+        this.echo(this.getElementInfo('h2')["text"]);
+
+        utils.dump(this.getElementInfo('h2')["html"]);
+
+        this.echo('close the frame.');
+        this.click('#edit-add-new');
+        this.page.switchToParentFrame();
+        this.wait(2000, function() {
+            this.capture('capture/5_technician.png');            
+        });
+
+    });
 });
+
+function getuserlist(pointer){
+    var items = pointer.getElementsInfo('td.views-field.views-field-field-first-name-value');
+    var result = [];
+    for (var i = 0; i< items.length; i++){
+        var h = items[i]["html"].split("\"");
+ //       pointer.echo(h);
+//        for (var j = 0; j< h.length; j++){
+ //           pointer.echo(j);
+ //           pointer.echo(h[j]);
+ //       }
+        result.push(h[1]);
+
+
+    }
+//    pointer.echo(result);
+    return result;
+}
+
+
+var user_list_page = 'http://10.243.119.113/covidien/covidien/admin/users/list';
+casper.thenOpen(user_list_page, function() {
+    this.echo('turn to the user list page.');
+    this.capture('capture/6_user_list.png');
+//    var items = this.getElementsInfo('td.views-field.views-field-field-first-name-value');
+//    var links = getLinks(this, 'a');
+
+    userlist = getuserlist(this);
+    for(var i = 0; i < userlist.length; i++){
+        downloadpage(this,i,userlist[i]);        
+    }
+
+    
+});
+
+
 
 /*
-casper.thenOpen(device_page_url).wait(3000).then(capturePage).run(function(){
-    this.echo("DONE");
-    this.exit();
+var links;
+casper.then(function getLinks(){
+     links = this.evaluate(function(){
+        var links = document.getElementsByClassName('iframe cboxElement');
+            links = Array.prototype.map.call(links,function(link){
+            return link.getAttribute('');
+        });
+        return links;
+    });
+
+ });
+
+casper.then(function(){
+    for (var i = 0; i< links.length; i++){
+        this.echo(links[i]);
+        this.thenOpen("http://10.243.119.113/" + links[i], function() {
+            this.echo(this.getCurrentUrl());
+            this.echo('4_technician_' + i);
+            this.capture('capture/4_technician.png');
+        })
+
+    }
+
+    this.each(links,function(self,link){
+        this.echo(link);      
+        self.thenOpen("http://10.243.119.113/" + link,function(a){
+            this.echo(this.getCurrentUrl());
+            this.echo('4_technician_' + i)
+            this.capture('capture/4_technician_' + i);
+        });
+
+    });
+
 });
 */
-
 casper.viewport(1280, 800);
 
 casper.run();

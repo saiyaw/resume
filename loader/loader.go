@@ -29,7 +29,7 @@ func getfilelist(foldername string) []string {
 	var filelist []string
 	filepath.Walk(folder, func(path string, f os.FileInfo, err error) error {
 		if f.IsDir() != true {
-			filelist = append(filelist, f.Name())
+			filelist = append(filelist, path)
 		}
 
 		return nil
@@ -38,22 +38,54 @@ func getfilelist(foldername string) []string {
 
 }
 
+func getfilelistinfolder(folderpath string) []string {
+	var filelist []string
+	filepath.Walk(folderpath, func(path string, f os.FileInfo, err error) error {
+		if f.IsDir() != true {
+			filelist = append(filelist, path)
+		}
+		return nil
+	})
+	return filelist
+}
+
 func importResumeInFolder(foldername string) {
 	fnlst := getfilelist(foldername)
 	for _, v := range fnlst {
 		ImportOneCandidateInfo(foldername, v)
 
 	}
+}
 
+func importOneLocalResume(f string) {
+	var page util.Page
+	page.URL = f
+	page.OpenDocument()
+	page.GetCandidateInfo()
+	log.Println(page.Candidate)
+	//	util.ImportCandidate(page.Candidate)
+	log.Println("................................ok")
+}
+
+func importResumeInLocalFolder(folderpath string) {
+	fnlst := getfilelistinfolder(folderpath)
+	log.Println(fnlst)
+	for _, v := range fnlst {
+		importOneLocalResume(v)
+	}
 }
 
 func main() {
-
-	importResumeInFolder("android")
-	importResumeInFolder("java")
-	importResumeInFolder("php")
-	importResumeInFolder("web")
-
+	/*
+		importResumeInFolder("android")
+		importResumeInFolder("java")
+		importResumeInFolder("php")
+		importResumeInFolder("web")
+	*/
 	//	ImportOneCandidateInfo("web", "11365.html")
+	//	filepath := "D:/cloud/data/web/3143.html"
+	//	importOneLocalResume(filepath)
+
+	importResumeInLocalFolder("D:/cloud/data")
 
 }

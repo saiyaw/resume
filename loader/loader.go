@@ -29,7 +29,7 @@ func getfilelist(foldername string) []string {
 	var filelist []string
 	filepath.Walk(folder, func(path string, f os.FileInfo, err error) error {
 		if f.IsDir() != true {
-			filelist = append(filelist, path)
+			filelist = append(filelist, f.Name())
 		}
 
 		return nil

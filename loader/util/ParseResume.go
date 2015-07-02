@@ -3,6 +3,7 @@ package util
 import (
 	"fmt"
 	"log"
+	"os"
 	"strings"
 
 	"github.com/PuerkitoBio/goquery"
@@ -58,6 +59,17 @@ type Page struct {
 	URL       string
 	Doc       *goquery.Document
 	Candidate CandidateInfo
+}
+
+func (p *Page) OpenDocument() {
+	f, _ := os.Open(p.URL)
+	defer f.Close()
+	doc, err := goquery.NewDocumentFromReader(f)
+	if err != nil {
+		log.Fatal(err)
+	}
+	p.Doc = doc
+
 }
 
 func (p *Page) OpenPage() {

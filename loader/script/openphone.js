@@ -49,7 +49,7 @@ casper.start('http://lbtoo.com/', function() {
 var eng_url_list = [];
 var open_phone_list = [];
 var resumeid_list = [];
-var resume_url = 'http://lbtoo.com/resume/search2?alltext=java&resetSearch=0&expect_area=%E5%85%A8%E9%83%A8&expect_area_last_json=&ageAddLast_json=%5B%5D&currentPageNum=' + casper.cli.get(0) + '&countPerPage=100';
+var resume_url = "http://lbtoo.com/resume/search2?alltext=" +　casper.cli.get(0) + "&currentPageNum=" + casper.cli.get(1) + "&countPerPage=100";
 casper.echo(resume_url, "INFO");
 casper.thenOpen(resume_url, function() {
     this.echo('go to an engineer list page.');

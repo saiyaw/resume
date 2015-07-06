@@ -11,6 +11,8 @@ address text,
 estimateprice real,
 email text,
 phone text,
+isvisible boolean default FALSE,
+resumeid int,
 updatetime timestamp without time zone,
 createtime timestamp without time zone default now(),
 CONSTRAINT candidate_pkey PRIMARY KEY (id)

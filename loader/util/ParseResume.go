@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"log"
 	"os"
+	"strconv"
 	"strings"
 
 	"github.com/PuerkitoBio/goquery"
@@ -39,12 +40,14 @@ type CareerIntentionInfo struct {
 }
 
 type CandidateInfo struct {
+	Index           int64
 	Name            string
 	Age             int64
 	WorkingYears    int64
 	Degree          string
 	Phone           string
 	Email           string
+	IsVisible       bool
 	Experience      []ExperienceInfo
 	Education       []EducationInfo
 	SelfEvaluation  string
@@ -81,6 +84,8 @@ func (p *Page) OpenPage() {
 }
 
 func (p *Page) GetCandidateInfo() {
+	// index
+	p.getIndex()
 
 	// name
 	p.getName()
@@ -117,10 +122,21 @@ func (p *Page) GetCandidateInfo() {
 
 }
 
+func (p *Page) getIndex() {
+	p.Doc.Find("#resumeid").Each(func(i int, s *goquery.Selection) {
+		title, _ := s.Attr("value")
+		p.Candidate.Index, _ = strconv.ParseInt(strings.TrimSpace(title), 10, 64)
+
+		//	log.Printf("%d) %s", i+1, title)
+
+	})
+
+}
+
 func (p *Page) getName() {
 	p.Doc.Find(".ct-top .first .name").Each(func(i int, s *goquery.Selection) {
 		//	title := s.Find("span").Text()
-		title := s.Text()
+		title := strings.TrimSpace(s.Text())
 		if i == 1 {
 			p.Candidate.Name = title
 		}
@@ -147,6 +163,7 @@ func (p *Page) getAgeWorkingYearsAndDegree() {
 func (p *Page) getPhone() {
 	p.Doc.Find("span.ph").Each(func(i int, s *goquery.Selection) {
 		p.Candidate.Phone = strings.TrimSpace(s.Text())
+		p.Candidate.IsVisible = true
 		//	log.Printf("%d) %s", i+1, title)
 	})
 
@@ -163,7 +180,7 @@ func (p *Page) getEmail() {
 func (p *Page) getWorkExperience() {
 	p.Doc.Find(".c-nr.c-nr1").Each(func(i int, s *goquery.Selection) {
 		var exp ExperienceInfo
-		exp.Company = s.Find("span.fl").Text()
+		exp.Company = strings.TrimSpace(s.Find("span.fl").Text())
 
 		//		log.Println(s.Find("span.fl").Text())
 		//		log.Println(s.Find("span.fr").Text())
@@ -174,7 +191,7 @@ func (p *Page) getWorkExperience() {
 		//	log.Printf("%d) %s", i+1, title)
 
 		// exp.Responsibility = strings.TrimSpace(s.Find(".ct-center-works1").Text())
-		exp.Responsibility = s.Find(".ct-center-works1").Text()
+		exp.Responsibility = strings.TrimSpace(s.Find(".ct-center-works1").Text())
 		p.Candidate.Experience = append(p.Candidate.Experience, exp)
 
 	})
@@ -200,7 +217,7 @@ func (p *Page) getEducation() {
 
 func (p *Page) getSelfEvaluation() {
 	p.Doc.Find(".ping").Each(func(i int, s *goquery.Selection) {
-		p.Candidate.SelfEvaluation = s.Text()
+		p.Candidate.SelfEvaluation = strings.TrimSpace(s.Text())
 		//		title := strings.TrimSpace(s.Text())
 		//		log.Printf("%d) %s", i+1, title)
 	})

@@ -22,6 +22,8 @@ type Candidate struct {
 	Estimateprice  float64
 	Email          string
 	Phone          string
+	Isvisible      bool
+	Resumeid       int64
 }
 
 type Document struct {
@@ -113,6 +115,8 @@ func ImportCandidate(cinfo CandidateInfo) {
 	c.Estimateprice = cinfo.EstimatePrice
 	c.Email = cinfo.Email
 	c.Phone = cinfo.Phone
+	c.Isvisible = cinfo.IsVisible
+	c.Resumeid = cinfo.Index
 	_, candidateid, err := o.ReadOrCreate(&c, "fullname", "email", "phone")
 	if err != nil {
 		log.Fatal(err)
@@ -144,7 +148,9 @@ func ImportCandidate(cinfo CandidateInfo) {
 		edu.Degree = v.Degree
 		edu.Major = v.Major
 		edu.University = v.University
-		edu.Startdate = time.Date(v.Period.StartYear, time.Month(v.Period.StartMonth), 1, 0, 0, 0, 0, time.UTC)
+		if v.Period.StartYear > 0 {
+			edu.Startdate = time.Date(v.Period.StartYear, time.Month(v.Period.StartMonth), 1, 0, 0, 0, 0, time.UTC)
+		}
 		if v.Period.EndYear > 0 {
 			edu.Enddate = time.Date(v.Period.EndYear, time.Month(v.Period.EndMonth), 1, 0, 0, 0, 0, time.UTC)
 		}
@@ -180,7 +186,10 @@ func ImportCandidate(cinfo CandidateInfo) {
 		exp.Position = v.Position
 		exp.Responsibility = v.Responsibility
 
-		exp.Startdate = time.Date(v.Period.StartYear, time.Month(v.Period.StartMonth), 1, 0, 0, 0, 0, time.UTC)
+		if v.Period.StartYear > 0 {
+			exp.Startdate = time.Date(v.Period.StartYear, time.Month(v.Period.StartMonth), 1, 0, 0, 0, 0, time.UTC)
+		}
+
 		if v.Period.EndYear > 0 {
 			exp.Enddate = time.Date(v.Period.EndYear, time.Month(v.Period.EndMonth), 1, 0, 0, 0, 0, time.UTC)
 		}

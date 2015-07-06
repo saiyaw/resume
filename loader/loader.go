@@ -4,6 +4,7 @@ import (
 	"log"
 	"os"
 	"path/filepath"
+	"strings"
 
 	"github.com/saiyawang/resume/loader/util"
 )
@@ -42,7 +43,9 @@ func getfilelistinfolder(folderpath string) []string {
 	var filelist []string
 	filepath.Walk(folderpath, func(path string, f os.FileInfo, err error) error {
 		if f.IsDir() != true {
-			filelist = append(filelist, path)
+			if strings.Contains(f.Name(), "html") {
+				filelist = append(filelist, path)
+			}
 		}
 		return nil
 	})
@@ -57,21 +60,34 @@ func importResumeInFolder(foldername string) {
 	}
 }
 
-func importOneLocalResume(f string) {
+func importOneLocalResume(f string, b bool) {
 	var page util.Page
 	page.URL = f
 	page.OpenDocument()
 	page.GetCandidateInfo()
 	log.Println(page.Candidate)
-	//	util.ImportCandidate(page.Candidate)
+	if b {
+		util.ImportCandidate(page.Candidate)
+		ss := strings.Split(f, "\\")
+		//	log.Println(ss[len(ss)-1])
+		newpath := "d:/imported/" + ss[len(ss)-1]
+		log.Println(newpath)
+		/*
+			err := os.Rename(f, newpath)
+			if err != nil {
+				log.Println(err)
+			}
+		*/
+	}
+
 	log.Println("................................ok")
 }
 
-func importResumeInLocalFolder(folderpath string) {
+func importResumeInLocalFolder(folderpath string, b bool) {
 	fnlst := getfilelistinfolder(folderpath)
-	log.Println(fnlst)
+	//	log.Println(fnlst)
 	for _, v := range fnlst {
-		importOneLocalResume(v)
+		importOneLocalResume(v, b)
 	}
 }
 
@@ -86,6 +102,8 @@ func main() {
 	//	filepath := "D:/cloud/data/web/3143.html"
 	//	importOneLocalResume(filepath)
 
-	importResumeInLocalFolder("D:/cloud/data")
+	//	importResumeInLocalFolder("F:/resume", true)
+	importResumeInLocalFolder("F:/dig50000", true)
+	//importResumeInLocalFolder("D:/Cloud/data", true)
 
 }

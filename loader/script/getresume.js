@@ -8,7 +8,12 @@ var casper = require('casper').create({
 	viewportSize: {
 		width: 1920,
 		height: 1200
-	}
+	},
+	httpStatusHandlers: {
+        404: function(self, resource) {
+            self.echo("Resource at " + resource.url + " not found (404)", "COMMENT");
+        }
+    }
 });
 var utils = require('utils');
 var fs = require('fs');

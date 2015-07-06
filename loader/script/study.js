@@ -5,7 +5,7 @@ var casper = new require('casper').create({
 		'jquery.js'
 	],
 	verbose: true,
-//	colorizerType: 'Dummy',
+	//	colorizerType: 'Dummy',
 	logLevel: "debug",
 	viewportSize: {
 		width: 1920,
@@ -15,35 +15,44 @@ var casper = new require('casper').create({
 var utils = require('utils');
 var fs = require('fs');
 var colorizer = require('colorizer').create('Colorizer');
+var resourceDirectory = "d:/capture/";
 
-fs.removeTree("capture");
+fs.removeTree(resourceDirectory);
+
+function saveimage(filename) {
+	casper.capture(resourceDirectory + filename + '.png');
+}
 
 casper.start('http://10.243.119.113/covidien', function() {
 	this.echo(this.getTitle());
 	this.echo('start');
 	if (this.exists('#edit-name')) {
-		casper.echo("find the input box for enter the user name.", "INFO_BAR");
+		casper.log("find the input box for enter the user name.", "debug");
+		casper.echo("find the input box for enter the user name.", "GREEN_BAR");
 		this.sendKeys('#edit-name', 'admin');
-		this.capture('capture/1_enter_username.png');
+		saveimage('1_enter_username');
 	}
 	if (this.exists('#edit-pass-clear')) {
 		casper.echo("find the input box for enter the password.", "GREEN_BAR");
 		this.sendKeys('#edit-pass-clear', 'admin123');
-		this.capture('capture/2_enter_password.png');
+		this.capture(resourceDirectory + '2_enter_password.png');
 	}
 	if (this.exists('#edit-submit')) {
-		casper.echo('find the sumbit button for login.', "RED_BAR");
+		casper.echo('find the sumbit button for login.', "GREEN_BAR");
 		this.click('#edit-submit');
-		this.echo('click the login button');
+		casper.echo('click the login button', 'GREEN_BAR');
 	}
 	this.wait(2000, function() {
-		this.echo('login the site, turn to the home page.');
-		this.capture('capture/3_home_page.png');
+		this.echo('login the site, turn to the home page.', "INFO_BAR");
+		this.capture(resourceDirectory + '3_home_page.png');
 	});
 });
 
-casper.then(function() {
-	this.echo('then 1');
+var user_list_page = "http://10.243.119.113/covidien/covidien/admin/users/list";
+casper.thenOpen(user_list_page, function() {
+	this.echo('then turn to user list page', "INFO");
+
+
 	casper.echo('an informative message, should be in green', 'INFO');
 
 });
@@ -66,7 +75,7 @@ casper.then(function() {
 
 casper.thenOpen('http://10.243.119.113/covidien/user', function() {
 	casper.echo('then open', 'INFO');
-	casper.capture('capture/4_user_list.png');
+	casper.capture(resourceDirectory + '4_user_list.png');
 })
 
 casper.run();

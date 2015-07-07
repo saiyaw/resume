@@ -70,14 +70,14 @@ func importOneLocalResume(f string, b bool) {
 		util.ImportCandidate(page.Candidate)
 		ss := strings.Split(f, "\\")
 		//	log.Println(ss[len(ss)-1])
-		newpath := "d:/imported/" + ss[len(ss)-1]
+		newpath := "f:/imported/" + ss[len(ss)-1]
 		log.Println(newpath)
-		/*
-			err := os.Rename(f, newpath)
-			if err != nil {
-				log.Println(err)
-			}
-		*/
+
+		err := os.Rename(f, newpath)
+		if err != nil {
+			log.Println(err)
+		}
+
 	}
 
 	log.Println("................................ok")

@@ -4,14 +4,15 @@ import (
 	"log"
 	"os"
 	"os/exec"
+	"strconv"
 	"sync"
 )
 
 var wg sync.WaitGroup
 
-func exeCommand(start string, end string) {
+func exeCommand(start int, end int) {
 	wd, _ := os.Getwd()
-	cmd := wd + "/script/download.js --start=" + start + " --end=" + end
+	cmd := wd + "/script/download.js --start=" + strconv.Itoa(start) + " --end=" + strconv.Itoa(end)
 	log.Println(cmd)
 	scrapeCmd := exec.Command("casperjs", cmd)
 	scrape, err := scrapeCmd.Output()
@@ -23,24 +24,35 @@ func exeCommand(start string, end string) {
 }
 
 func main() {
-	wg.Add(16)
-	go exeCommand("120001", "125000")
-	go exeCommand("125001", "130000")
-	go exeCommand("130001", "135000")
-	go exeCommand("135001", "140000")
-	go exeCommand("140001", "145000")
-	go exeCommand("145001", "150000")
-	go exeCommand("150001", "155000")
-	go exeCommand("155001", "160000")
-	go exeCommand("160001", "165000")
-	go exeCommand("165001", "170000")
-	go exeCommand("170001", "175000")
-	go exeCommand("175001", "180000")
-	go exeCommand("180001", "185000")
-	go exeCommand("185001", "190000")
-	go exeCommand("190001", "195000")
-	go exeCommand("195001", "200000")
+	num := 32
 
+	wg.Add(num)
+
+	start := 137000
+
+	for i := 0; i < num; i++ {
+		end := start + 1000
+		go exeCommand(start, end)
+		start = end
+	}
+	/*
+		go exeCommand("120000", "121000")
+		go exeCommand("121000", "122000")
+		go exeCommand("122000", "123000")
+		go exeCommand("123000", "124000")
+		go exeCommand("124000", "125000")
+		go exeCommand("125000", "126000")
+		go exeCommand("126000", "127000")
+		go exeCommand("127000", "128000")
+		go exeCommand("128000", "129000")
+		go exeCommand("129000", "130000")
+		go exeCommand("130000", "131000")
+		go exeCommand("131000", "132000")
+		go exeCommand("132000", "133000")
+		go exeCommand("133000", "134000")
+		go exeCommand("134000", "135000")
+		go exeCommand("135000", "136000")
+	*/
 	wg.Wait()
 	log.Println("done.")
 

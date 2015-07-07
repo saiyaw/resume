@@ -92,6 +92,7 @@ func importResumeInLocalFolder(folderpath string, b bool) {
 }
 
 func main() {
+
 	/*
 		importResumeInFolder("android")
 		importResumeInFolder("java")

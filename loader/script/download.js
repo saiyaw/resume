@@ -105,9 +105,9 @@ casper.then(function() {
 				this.click('.work-detail');
 				var id = current_url.substr(current_url.lastIndexOf("=") + 1);
 				downloadPage(current_url);
-				this.echo(link + "...downloaded");
+				self.echo(link + "...downloaded");
 			} else {
-				this.echo(link + "...is not found");
+				self.echo(link + "...is not found");
 			}
 		})
 	});
@@ -118,6 +118,6 @@ casper.then(function() {
 
 
 casper.run(function() {
-	this.echo(result);
+	this.echo(start_node + ":" + end_node);
 	this.exit(result);
 });

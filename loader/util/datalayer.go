@@ -80,7 +80,7 @@ type Candidateskill struct {
 }
 
 func init() {
-	orm.Debug = true
+	orm.Debug = false
 
 	orm.RegisterDriver("postgres", orm.DR_Postgres)
 

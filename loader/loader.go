@@ -104,7 +104,7 @@ func main() {
 	//	importOneLocalResume(filepath)
 
 	//	importResumeInLocalFolder("F:/resume", true)
-	importResumeInLocalFolder("F:/dig50000", true)
+	importResumeInLocalFolder("F:/dig2130000", true)
 	//importResumeInLocalFolder("D:/Cloud/data", true)
 
 }

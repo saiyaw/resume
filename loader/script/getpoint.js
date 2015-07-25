@@ -20,6 +20,9 @@ var urls = [];
 var login_url = "http://lbtoo.com/";
 var home_url = "http://lbtoo.com/resume/search2";
 
+// evilhack2000@tom.com :　evil2000
+// evilhack2001@tom.com :　evil2001
+
 var user = casper.cli.get("user") || "saiyan.wang@hotmail.com";
 var password = casper.cli.get("password") || "wang123456";
 

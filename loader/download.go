@@ -45,7 +45,7 @@ func exeCommand(start int, end int, wg *sync.WaitGroup) {
 	checkError(err)
 
 	go io.Copy(os.Stdout, stdout)
-	go io.Copyopy(os.Stderr, stderr)
+	go io.Copy(os.Stderr, stderr)
 
 	cmd.Wait()
 
@@ -55,14 +55,14 @@ func exeCommand(start int, end int, wg *sync.WaitGroup) {
 func main() {
 	//	runtime.GOMAXPROCS(runtime.NumCPU())
 	wg := new(sync.WaitGroup)
-	num := 20
+	num := 1
 
 	wg.Add(num)
 
-	start := 1630000
+	start := 2130000
 
 	for i := 0; i < num; i++ {
-		end := start + 25000
+		end := start + 50000
 		go exeCommand(start, end, wg)
 		start = end
 	}

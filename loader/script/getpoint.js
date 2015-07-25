@@ -98,12 +98,21 @@ casper.then(function() {
         })
     });
 
-    result = 1;
+    //    result = 1;
 });
+
+casper.thenOpen(home_url, function() {
+    //   this.echo(this.getCurrentUrl());
+    //   utils.dump(this.getElementInfo('#goldShovelCount')["text"]);
+//    this.echo(this.getElementInfo('#goldShovelCount')["text"]);
+    result = this.getElementInfo('#goldShovelCount')["text"];
+
+})
 
 
 
 casper.run(function() {
-    this.echo(start_node + ":" + end_node);
+    //   this.echo(start_node + ":" + end_node);
+    this.echo(result);
     this.exit(result);
 });

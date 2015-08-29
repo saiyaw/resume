@@ -6,3 +6,8 @@ casperjs getpoint.js --user=evilhack2003@tom.com --password=evil2003
 casperjs getpoint.js --user=evilhack2000@163.com --password=evil2000
 casperjs getpoint.js --user=evilhack2001@163.com --password=evil2001
 casperjs getpoint.js --user=evilhack2002@163.com --password=evil2002
+casperjs getpoint.js --user=evilhack2003@163.com --password=evil2003
+casperjs getpoint.js --user=evilhack2004@163.com --password=evil2004
+casperjs getpoint.js --user=evilhack2005@163.com --password=evil2005
+casperjs getpoint.js --user=evilhack2006@163.com --password=evil2006
+casperjs getpoint.js --user=evilhack2007@163.com --password=evil2007

@@ -81,7 +81,7 @@ func GetSkillPool() []util.Skillpool {
 	var result []util.Skillpool
 
 	num, err := o.QueryTable("skillpool").All(&result)
-	beego.Debug("Returned Rows Num:%s, %s", num, err)
+	beego.Debug("Returned Rows Num:", num, ", error:", err)
 
 	return result
 

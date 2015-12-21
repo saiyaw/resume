@@ -1,16 +1,5 @@
-<div id="skillpool">
-    <span class="button-checkbox">
-        <button type="button" class="btn" data-color="primary">JAVA</button>
-        <input type="checkbox" class="hidden" />
-    </span>
-    <span class="button-checkbox">
-        <button type="button" class="btn" data-color="primary">PHP</button>
-        <input type="checkbox" class="hidden"/>
-    </span>
-    <span class="button-checkbox">
-        <button type="button" class="btn" data-color="primary">HTML</button>
-        <input type="checkbox" class="hidden"/>
-    </span>
+<div id="skillpool" hidden>
+
 </div>
 
 <div>
@@ -18,11 +7,13 @@
 		<thead>
 			<tr>
 				<th>#</th>
-				<th>Name</th>
-				<th>Age</th>
-				<th>Education</th>
-				<th>Experience</th>
-				<th>Resume</th>
+				<th>名字</th>
+				<th>性别</th>
+				<th>学历</th>
+				<th>电话</th>
+				<th>邮箱</th>
+				<th>工作时间</th>
+				<th></th>
 			</tr>
 		</thead>
 		<tbody>
@@ -32,6 +23,8 @@
 				<th>34</th>
 				<th>Master</th>
 				<th>3</th>
+				<th>3</th>
+				<th>3</th>
 				<th><button>View</button></th>
 			</tr>
 			<tr>
@@ -40,6 +33,8 @@
 				<th>34</th>
 				<th>Master</th>
 				<th>3</th>
+				<th>3</th>
+				<th>3</th>
 				<th><button>View</button></th>
 			</tr>
 			<tr>
@@ -47,6 +42,8 @@
 				<th>Test</th>
 				<th>34</th>
 				<th>Master</th>
+				<th>3</th>
+				<th>3</th>
 				<th>3</th>
 				<th><button>View</button></th>
 			</tr>
@@ -56,6 +53,8 @@
 				<th>34</th>
 				<th>Master</th>
 				<th>3</th>
+				<th>3</th>
+				<th>3</th>
 				<th><button>View</button></th>
 			</tr>
 			<tr>
@@ -63,6 +62,8 @@
 				<th>Test</th>
 				<th>34</th>
 				<th>Master</th>
+				<th>3</th>
+				<th>3</th>
 				<th>3</th>
 				<th><button>View</button></th>
 			</tr>			
